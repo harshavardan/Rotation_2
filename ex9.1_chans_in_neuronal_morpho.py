@@ -11,7 +11,7 @@ rdes = rd.rdesigneur(
         ['./chans/CaConc.xml'],
         ['./chans/Ca.xml']
     ],
-    cellProto = [['./cells/h10.CNG.swc', 'elec']],
+    cellProto = [['./cells/simple.swc', 'elec']],
     chanDistrib = [ \
         ["hd", "#dend#,#apical#", "Gbar", "50e-2*(1+(p*3e4))" ],
         ["kdr", "#", "Gbar", "p < 50e-6 ? 500 : 100" ],
