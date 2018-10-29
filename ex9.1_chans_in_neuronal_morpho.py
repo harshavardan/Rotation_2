@@ -26,9 +26,10 @@ rdes = rd.rdesigneur(
     ],
     stimList = [['soma', '1', '.', 'inject', '(t>0.02) * 1e-9' ]],
     plotList = [['#', '1', '.', 'Vm', 'Membrane potential'],
-            ['#', '1', 'Ca_conc', 'Ca', 'Ca conc (uM)']],
-    moogList = [['#', '1', 'Ca_conc', 'Ca', 'Calcium conc (uM)', 0, 120],
-        ['#', '1', '.', 'Vm', 'Soma potential']]
+            ['#', '1', 'Ca_conc', 'Ca', 'Ca conc (uM)']
+            ],
+    #moogList = [['#', '1', 'Ca_conc', 'Ca', 'Calcium conc (uM)', 0, 120],
+    #    ['#', '1', '.', 'Vm', 'Soma potential']]
 )
 
 rdes.buildModel()
