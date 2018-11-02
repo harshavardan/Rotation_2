@@ -18,8 +18,7 @@ rdes = rd.rdesigneur(
         ["na3", "#soma#,#dend#,#apical#", "Gbar", "850" ],
         ["nax", "#soma#,#axon#", "Gbar", "1250" ],
         ["kap", "#axon#,#soma#", "Gbar", "300" ],
-        ["kap", "#dend#,#apical#", "Gbar",
-            "300*(H(100-p*1e6)) * (1+(p*1e4))" ],
+        ["kap", "#dend#,#apical#", "Gbar", "300*(H(100-p*1e6)) * (1+(p*1e4))" ],
         ["Ca_conc", "#", "tau", "0.0133" ],
         ["kad", "#soma#,#dend#,#apical#", "Gbar", "50" ],
         ["Ca", "#", "Gbar", "50" ]
@@ -33,6 +32,8 @@ rdes = rd.rdesigneur(
 )
 
 rdes.buildModel()
-
 moose.reinit()
-rdes.displayMoogli( 0.0002, 0.052 )
+for a in moose.wildcardFind( '/model/##'):
+    print(a)
+#  rdes.displayMoogli( 0.0002, 0.052 )
+moose.start(10)
