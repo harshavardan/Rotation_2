@@ -1,0 +1,77 @@
+Experiment metadata		
+transcriber	Upinder S. Bhalla
+organization	NCBS	
+emailId	bhalla@ncbs.res.in	
+exptSource	Paper	
+citationId	PMID: 15548210 
+authors	Ajay and Bhalla
+journal	European Journal of Neuroscience 2004
+		
+		
+Experiment context	
+exptType	TimeSeries		
+species	rat	
+cell-types	hippocampal CA1 pyramidal neuron	
+temperature (Celsius)	30	
+Include	all		
+details		foo bar zod
+notes		
+		
+Stimuli		
+compartment	dend	
+timeUnits	sec	
+quantityUnits	Hz	
+entities	synInput	
+field	rate	
+Data		
+Time	Value	
+0	0	
+240	100	
+241	0	
+246	100	
+247	0	
+
+		
+Stimuli		
+compartment	dend	
+timeUnits	sec	
+quantityUnits	ratio	
+entities	synapse	
+field	weight	
+Data		
+Time	Value	
+0	0.045	
+240	0.07	
+247	0.045	
+		
+Readouts	
+timeUnits	sec	
+quantityUnits	mV	
+useXlog	FALSE	
+useYlog	FALSE	
+entities	soma	
+field	EPSP_peak	
+useNormalization	FALSE	
+Data		
+Time	Value	stderr
+60	3	0	
+120	3	0	
+180	3	0	
+300	5	0	
+360	3.42	0	
+420	3.23	0	
+480	3.25	0	
+
+		
+Model mapping		
+modelSource	internal	
+fileName	plastic1.py	
+citationId		
+citation		
+authors		
+modelSubset	all	
+modelLookup	soma:elec/soma,synInput:elec/head0/glu/sh/synapse/synInput,synapse:elec/head0/glu/sh/synapse	
+scoringFormula	abs((expt-sim)/(expt+sim+1e-9))	
+solver	none	
+notes		
+
