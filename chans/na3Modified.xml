@@ -7,7 +7,7 @@
 
     <meta:notes>ChannelML file containing a single Channel description</meta:notes>
 
-    <channel_type name="na3" density="yes">
+    <channel_type name="na3Modified" density="yes">
         
         <status value="stable">
             <meta:comment>Agreement of generated NEURON and GENESIS to original NEURON mod. Compared voltage and n traces on single comp with current pulse</meta:comment>
