@@ -1,13 +1,14 @@
 import moose
+print( 'Using moose from %s' % moose.__file__ )
 import pylab
 import rdesigneur as rd
 rdes = rd.rdesigneur(
     chanProto = [
-        ['make_Na()','Na'],
+        #  ['make_Na()','Na'],
         #['make_K_DR()','K_DR'],
         #['./chans/kdr.xml'],
         ['./chans/na3nml.xml'], #This is an nml file that has just had its filename changed to xml
-        ['./chans/na3.xml'],
+        #  ['./chans/na3.xml'],
         #['make_HH_Na()', 'HH_Na'], 
         #['make_HH_K()', 'HH_K']
         ],
@@ -16,10 +17,11 @@ rdes = rd.rdesigneur(
         #['kdr', 'soma', 'Gbar', '2000' ]
         ],
     stimList = [['soma', '1', '.', 'inject', '(t>0.1 && t<0.2) * 1e-8' ]],
-    plotList = [['soma', '1', '.', 'Vm', 'Membrane potential']]
+    plotList = [['soma', '1', '.', 'Vm', 'Membrane potential']],
+    verbose = True
 )
 
-rdes.buildModel()
+rdes.buildModel( verbose = True )
 moose.reinit()
 moose.start( 0.3 )
 rdes.display()
