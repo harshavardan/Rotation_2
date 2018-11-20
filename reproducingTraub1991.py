@@ -2,6 +2,7 @@
 import moose
 import pylab
 import rdesigneur as rd
+f=20 # factor to change conductances based on blockers and such
 rdes = rd.rdesigneur(
     cellProto = [
         ['./cells/traub1991.swc','elec'],
@@ -11,22 +12,50 @@ rdes = rd.rdesigneur(
         ['make_Na()', 'Na'],
         ['make_K_DR()', 'K_DR'],
         ['make_Ca()', 'Ca'],
+        ['make_Ca_conc()', 'Ca_conc' ],
+        ['make_K_AHP()', 'K_AHP'],
+        ['make_K_C()', 'K_C'],
+        ['make_K_A()', 'K_A']
         ],
     chanDistrib = [
         ['Na', 'soma', 'Gbar', '30' ],
         ['K_DR', 'soma', 'Gbar', '15' ],
-        ['Na', 'dend#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
-        ['K_DR', 'dend#', 'Gbar', '(p<=12) ? 15: ((p>12 && p<=24) ? 5 : ((p>24 && p<=36) ? 0 : (p>36 && p<=48) ? 48 : (p>48 && p<=60) ? 20 : 0))'],
-        ['Na', 'apical#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : (p>24 && p<=36) ? 20 : 0)'],
-        ['K_DR', 'apical#', 'Gbar', '(p<=12)? 5 : (p>12 && p<=24) ? 0 : (p>24 && p<=36) ? 20 : 0)']
+        ['Ca', 'soma', 'Gbar', '4'],
+        ['Ca_conc', '#', 'tau', '0.0333'],
+        ['K_AHP', 'soma', 'Gbar', '0.8'],
+        ['K_C', 'soma', 'Gbar', '10'],
+        ['K_A', 'soma', 'Gbar', '5'],
+        
+        #apical dendrites
+        
+        ['Na', 'apical#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
+        ['K_DR', 'apical#', 'Gbar', '(p<=12) ? 5 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
+        ['Ca', 'apical#', 'Gbar', '(p<=12) ? 8 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 17 : ((p>60 && p<=84) ? 10 : ((p>84 && p<=108) ? 5 : 0))))'],
+        ['K_AHP', 'apical#', 'Gbar', '(p<=108) ? 0.8 : 0'],
+        ['K_C', 'apical#', 'Gbar', '(p<=12) ? 20 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=84) ? 15 : ((p>84 && p<=108) ? 5 : 0)))'],
+        
+        #basal dendrites
+        
+        ['Na', 'basal#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
+        ['K_DR', 'basal#', 'Gbar', '(p<=12) ? 5 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
+        ['Ca', 'basal#', 'Gbar', '(p<=12) ? 8 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 12 : ((p>60 && p<=84) ? 5 : 0)))'],
+        ['K_AHP', 'basal#', 'Gbar', '(p<=84) ? 0.8 : 0'],
+        ['K_C', 'basal#','Gbar','(p<=12) ? 20 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 10 : ((p>60 && p<=84) ? 5 : 0)))']
         ],
-    stimList = [['soma', '1', '.', 'inject', '(t>0.1 && t<0.6) * 1e-10' ]],
-    plotList = [['soma', '1', '.', 'Vm', 'Membrane potential']],
+        
+    stimList = [['soma', '1', '.', 'inject', '(t>0.1 && t<0.6) * 0.12e-9' ]],
+    plotList = [
+        ['soma', '1', '.', 'Vm', 'Membrane potential'],
+        ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
 )
 
 rdes.buildModel()
 moose.reinit()
 moose.start( .7 )
-#rdes.displayMoogli( 0.001, 0.3, rotation = 0.02 )
+#rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
+
+
+
+#'(p<=12) ?  : ((p>12 && p<=24) ?  : ((p>24 && p<=36) ?  : ((p>36 && p<=48) ?  : ((p>48 && p<=60) ?  : ((p>60 && p<=72) ?  : ((p>72 && p<=84) ?  : ((p>84 && p<=96) ?  : (p>96 && p<=108) ?  : )))))))'
