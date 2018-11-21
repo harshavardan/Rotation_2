@@ -7,7 +7,7 @@ rdes = rd.rdesigneur(
         #['make_K_DR()','K_DR'],
         #['./chans/kdr.xml'],
         ['./chans/na3nml.xml'], #This is an nml file that has just had its filename changed to xml
-        ['./chans/na3.xml'],
+        #  ['./chans/na3.xml'],
         #['make_HH_Na()', 'HH_Na'], 
         #['make_HH_K()', 'HH_K']
         ],

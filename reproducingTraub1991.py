@@ -19,7 +19,8 @@ rdes = rd.rdesigneur(
         ['make_Ca_conc()', 'Ca_conc' ],
         ['make_K_AHP()', 'K_AHP'],
         ['make_K_C()', 'K_C'],
-        ['make_K_A()', 'K_A']
+        ['make_K_A()', 'K_A'],
+        ['./chans/LeakConductance.xml']
         ],
     passiveDistrib = [
         ['#', 'CM', '0.030', 'RM', '1.0', 'RA', '1.0' ] # look into this
@@ -32,6 +33,7 @@ rdes = rd.rdesigneur(
         ['K_AHP', 'soma', 'Gbar', '8'],
         ['K_C', 'soma', 'Gbar', '100'],
         ['K_A', 'soma', 'Gbar', '50'],
+        ['LeakConductance', '#', 'Gbar', "1" ],
         
         #apical dendrites
         
