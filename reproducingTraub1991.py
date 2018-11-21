@@ -22,35 +22,35 @@ rdes = rd.rdesigneur(
         ['make_K_A()', 'K_A']
         ],
     passiveDistrib = [
-        ['#', 'CM', '0.030', 'RM', '1.0', 'RA', '1.0' ]
+        ['#', 'CM', '0.030', 'RM', '1.0', 'RA', '1.0' ] # look into this
         ],
     chanDistrib = [
-        ['Na', 'soma', 'Gbar', '30' ],
-        ['K_DR', 'soma', 'Gbar', '15' ],
-        ['Ca', 'soma', 'Gbar', '4'],
+        ['Na', 'soma', 'Gbar', '300' ], # conductance units are S/m^2
+        ['K_DR', 'soma', 'Gbar', '150' ],
+        ['Ca', 'soma', 'Gbar', '40'],
         ['Ca_conc', '#', 'tau', '0.020'],
-        ['K_AHP', 'soma', 'Gbar', '0.8'],
-        ['K_C', 'soma', 'Gbar', '10'],
-        ['K_A', 'soma', 'Gbar', '5'],
+        ['K_AHP', 'soma', 'Gbar', '8'],
+        ['K_C', 'soma', 'Gbar', '100'],
+        ['K_A', 'soma', 'Gbar', '50'],
         
         #apical dendrites
         
-        ['Na', 'apical#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
-        ['K_DR', 'apical#', 'Gbar', '(p<=12) ? 5 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
-        ['Ca', 'apical#', 'Gbar', '(p<=12) ? 8 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 17 : ((p>60 && p<=84) ? 10 : ((p>84 && p<=108) ? 5 : 0))))'],
-        ['K_AHP', 'apical#', 'Gbar', '(p<=108) ? 0.8 : 0'],
-        ['K_C', 'apical#', 'Gbar', '(p<=12) ? 20 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=84) ? 15 : ((p>84 && p<=108) ? 5 : 0)))'],
+        ['Na', 'apical#', 'Gbar', '(p<=12) ? 150 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
+        ['K_DR', 'apical#', 'Gbar', '(p<=12) ? 50 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
+        ['Ca', 'apical#', 'Gbar', '(p<=12) ? 80 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 170 : ((p>60 && p<=84) ? 100 : ((p>84 && p<=108) ? 50 : 0))))'],
+        ['K_AHP', 'apical#', 'Gbar', '(p<=108) ? 8 : 0'],
+        ['K_C', 'apical#', 'Gbar', '(p<=12) ? 200 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=84) ? 150 : ((p>84 && p<=108) ? 50 : 0)))'],
         
         #basal dendrites
         
-        ['Na', 'dend#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
-        ['K_DR', 'dend#', 'Gbar', '(p<=12) ? 5 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
-        ['Ca', 'dend#', 'Gbar', '(p<=12) ? 8 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 12 : ((p>60 && p<=84) ? 5 : 0)))'],
-        ['K_AHP', 'dend#', 'Gbar', '(p<=84) ? 0.8 : 0'],
-        ['K_C', 'dend#','Gbar','(p<=12) ? 20 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 10 : ((p>60 && p<=84) ? 5 : 0)))']
+        ['Na', 'dend#', 'Gbar', '(p<=12) ? 150 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
+        ['K_DR', 'dend#', 'Gbar', '(p<=12) ? 50 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
+        ['Ca', 'dend#', 'Gbar', '(p<=12) ? 80 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 120 : ((p>60 && p<=84) ? 50 : 0)))'],
+        ['K_AHP', 'dend#', 'Gbar', '(p<=84) ? 8 : 0'],
+        ['K_C', 'dend#','Gbar','(p<=12) ? 200 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 100 : ((p>60 && p<=84) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>0.1 && t<1.1) * 0.12e-9' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>0.1 && t<0.2) ? 1e-10 :0' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
         ],
@@ -59,7 +59,7 @@ rdes = rd.rdesigneur(
 
 rdes.buildModel()
 moose.reinit()
-moose.start( 5 )
+moose.start( 0.3 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
 
