@@ -33,7 +33,7 @@ rdes = rd.rdesigneur(
         ['K_AHP', 'soma', 'Gbar', '8'],
         ['K_C', 'soma', 'Gbar', '100'],
         ['K_A', 'soma', 'Gbar', '50'],
-        ['LeakConductance', '#', 'Gbar', "1" ],
+        ['LeakConductance', '#', 'Gbar', "10" ],
         
         #apical dendrites
         
