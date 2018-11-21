@@ -33,7 +33,7 @@ rdes = rd.rdesigneur(
         ['K_AHP', 'soma', 'Gbar', '8'],
         ['K_C', 'soma', 'Gbar', '100'],
         ['K_A', 'soma', 'Gbar', '50'],
-        ['LeakConductance', '#', 'Gbar', "0.1" ],
+        ['LeakConductance', '#', 'Gbar', "1.0" ],
         
         #apical dendrites
         
@@ -52,9 +52,9 @@ rdes = rd.rdesigneur(
         ['K_C', 'dend#','Gbar','(p<=12) ? 200 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 100 : ((p>60 && p<=84) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>0.3 && t<0.8) ? 1e-10 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0.0e-9 :0' ]],
     plotList = [
-        ['soma', '1', '.', 'Vm', 'Membrane potential'],
+        ['soma', '1', '.', 'Vm', 'Membrane potential, no input'],
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
 )
