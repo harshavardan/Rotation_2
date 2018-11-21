@@ -1,8 +1,12 @@
-#Reproducing Traub 1991. I wrote an swc file with an apical dendrite and a basal dendrite with dimentions from the paper. The area of the cyclidrical soma from the paper was used to find the radius of a sphere with the same area. This area was used in the swc file. So far, only Na and K_DR channels have been added.
+#I wrote an swc file with an apical dendrite and a basal dendrite
+#with dimensions from the paper. The area of the cyclidrical soma
+#from the paper was used to find the radius of a sphere with the 
+#same area. This area was used in the swc file.
+
 import moose
 import pylab
 import rdesigneur as rd
-f=20 # factor to change conductances based on blockers and such
+
 rdes = rd.rdesigneur(
     cellProto = [
         ['./cells/traub1991.swc','elec'],
@@ -17,11 +21,14 @@ rdes = rd.rdesigneur(
         ['make_K_C()', 'K_C'],
         ['make_K_A()', 'K_A']
         ],
+    passiveDistrib = [
+        ['#', 'CM', '0.030', 'RM', '1.0', 'RA', '1.0' ]
+        ],
     chanDistrib = [
         ['Na', 'soma', 'Gbar', '30' ],
         ['K_DR', 'soma', 'Gbar', '15' ],
         ['Ca', 'soma', 'Gbar', '4'],
-        ['Ca_conc', '#', 'tau', '0.0333'],
+        ['Ca_conc', '#', 'tau', '0.020'],
         ['K_AHP', 'soma', 'Gbar', '0.8'],
         ['K_C', 'soma', 'Gbar', '10'],
         ['K_A', 'soma', 'Gbar', '5'],
@@ -36,14 +43,14 @@ rdes = rd.rdesigneur(
         
         #basal dendrites
         
-        ['Na', 'basal#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
-        ['K_DR', 'basal#', 'Gbar', '(p<=12) ? 5 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
-        ['Ca', 'basal#', 'Gbar', '(p<=12) ? 8 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 12 : ((p>60 && p<=84) ? 5 : 0)))'],
-        ['K_AHP', 'basal#', 'Gbar', '(p<=84) ? 0.8 : 0'],
-        ['K_C', 'basal#','Gbar','(p<=12) ? 20 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 10 : ((p>60 && p<=84) ? 5 : 0)))']
+        ['Na', 'dend#', 'Gbar', '(p<=12) ? 15 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
+        ['K_DR', 'dend#', 'Gbar', '(p<=12) ? 5 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 20 : 0))'],
+        ['Ca', 'dend#', 'Gbar', '(p<=12) ? 8 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 12 : ((p>60 && p<=84) ? 5 : 0)))'],
+        ['K_AHP', 'dend#', 'Gbar', '(p<=84) ? 0.8 : 0'],
+        ['K_C', 'dend#','Gbar','(p<=12) ? 20 : ((p>12 && p<=24) ? 5 : ((p>24 && p<=60) ? 10 : ((p>60 && p<=84) ? 5 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>0.1 && t<0.6) * 0.12e-9' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>0.1 && t<1.1) * 0.12e-9' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
         ],
@@ -52,7 +59,7 @@ rdes = rd.rdesigneur(
 
 rdes.buildModel()
 moose.reinit()
-moose.start( .7 )
+moose.start( 5 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
 
