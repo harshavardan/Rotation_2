@@ -52,9 +52,9 @@ rdes = rd.rdesigneur(
         ['K_C', 'dend#','Gbar','(p<=12) ? 200 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 100 : ((p>60 && p<=84) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0.0e-9 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0.015e-9 :0' ]],
     plotList = [
-        ['soma', '1', '.', 'Vm', 'Membrane potential, no input'],
+        ['soma', '1', '.', 'Vm', 'Membrane potential'],
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
 )
