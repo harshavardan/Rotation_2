@@ -1,7 +1,7 @@
 #I wrote an swc file with an apical dendrite and a basal dendrite
 #with dimensions from the paper. The area of the cyclidrical soma
 #from the paper was used to find the radius of a sphere with the 
-#same area. This area was used in the swc file.
+#same area. This radius was used in the swc file.
 
 import moose
 import pylab
@@ -62,7 +62,3 @@ moose.reinit()
 moose.start( 0.3 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
-
-
-
-#'(p<=12) ?  : ((p>12 && p<=24) ?  : ((p>24 && p<=36) ?  : ((p>36 && p<=48) ?  : ((p>48 && p<=60) ?  : ((p>60 && p<=72) ?  : ((p>72 && p<=84) ?  : ((p>84 && p<=96) ?  : (p>96 && p<=108) ?  : )))))))'
