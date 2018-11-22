@@ -4,8 +4,28 @@
 #same area. This radius was used in the swc file.
 
 import moose
+import math
 import pylab
 import rdesigneur as rd
+
+def print_model( ):
+    print( ' STIMULUS' )
+    res = {}
+    for s in moose.wildcardFind( '/model/stims/##' ):
+        if isinstance(s, moose.Function):
+            print( "%s | %s" % (s.path, s.expr) )
+
+    for c in moose.wildcardFind( '/model/elec/##[TYPE=ZombieHHChannel]' ):
+        e = moose.element(c)
+        x = c.path.split( '/')
+        compt = moose.element(e.parent)
+        vol = math.pi * compt.diameter * compt.length 
+        print( "Gbar=%g S, %g S/m^2| %s" % (e.Gbar, e.Gbar/vol, '/'.join(x[-2:])))
+
+    for c in moose.wildcardFind( '/model/##[TYPE=ZombieCaConc]' ):
+        e = moose.element(c)
+        x = c.path.split( '/')
+        print( "Tau=%g | %s" % (e.tau, '/'.join(x[-2:])))
 
 rdes = rd.rdesigneur(
     cellProto = [
@@ -29,7 +49,7 @@ rdes = rd.rdesigneur(
         ['Na', 'soma', 'Gbar', '300' ], # conductance units are S/m^2
         ['K_DR', 'soma', 'Gbar', '150' ],
         ['Ca', 'soma', 'Gbar', '40'],
-        ['Ca_conc', '#', 'tau', '0.020'],
+        ['Ca_conc', '#', 'tau', '0.01333'],
         ['K_AHP', 'soma', 'Gbar', '8'],
         ['K_C', 'soma', 'Gbar', '100'],
         ['K_A', 'soma', 'Gbar', '50'],
@@ -44,7 +64,6 @@ rdes = rd.rdesigneur(
         ['K_C', 'apical#', 'Gbar', '(p<=12) ? 200 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=84) ? 150 : ((p>84 && p<=108) ? 50 : 0)))'],
         
         #basal dendrites
-        
         ['Na', 'dend#', 'Gbar', '(p<=12) ? 150 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
         ['K_DR', 'dend#', 'Gbar', '(p<=12) ? 50 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
         ['Ca', 'dend#', 'Gbar', '(p<=12) ? 80 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 120 : ((p>60 && p<=84) ? 50 : 0)))'],
@@ -52,7 +71,7 @@ rdes = rd.rdesigneur(
         ['K_C', 'dend#','Gbar','(p<=12) ? 200 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 100 : ((p>60 && p<=84) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0.015e-9 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0 :0' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
         ],
@@ -60,7 +79,8 @@ rdes = rd.rdesigneur(
 )
 
 rdes.buildModel()
+#  print_model()
 moose.reinit()
-moose.start( 1 )
+moose.start( 10 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
