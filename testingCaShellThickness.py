@@ -21,7 +21,7 @@ rdes = rd.rdesigneur(
         ['K_DR', 'soma', 'Gbar', '150' ],
         ['Ca', 'soma', 'Gbar', '40'],
         ['Ca_conc', 'soma', 'tau', '0.01333', 'thick', '1'],
-        ['Ca_conc', 'apical#', 'tau', '0.01333', 'thick', '1'],
+        ['Ca_conc', 'apical#', 'tau', '0.01333', 'thick', '10'],
         ['Ca_conc', 'dend#', 'tau', '0.01333', 'thick', '100'],
         
         #apical dendrites
@@ -34,13 +34,13 @@ rdes = rd.rdesigneur(
        
         ['Na', 'dend#', 'Gbar', '(p<=12) ? 150 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
         ['K_DR', 'dend#', 'Gbar', '(p<=12) ? 50 : ((p>12 && p<=24) ? 0 : ((p>24 && p<=36) ? 200 : 0))'],
-        ['Ca', '#', 'Gbar', '(p<=12) ? 80 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 170 : ((p>60 && p<=84) ? 100 : ((p>84 && p<=108) ? 50 : 0))))'],
+        ['Ca', 'dend#', 'Gbar', '(p<=12) ? 80 : ((p>12 && p<=24) ? 50 : ((p>24 && p<=60) ? 170 : ((p>60 && p<=84) ? 100 : ((p>84 && p<=108) ? 50 : 0))))'],
         ],
         
     stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0 :0' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
-        ['#', '1','Ca_conc','Ca', 'Calcium concentration (soma)']        
+        ['#', '1','Ca_conc','Ca', 'Calcium concentration']        
         ],
 )
 
