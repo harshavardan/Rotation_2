@@ -21,8 +21,8 @@ rdes = rd.rdesigneur(
         ['K_DR', 'soma', 'Gbar', '150' ],
         ['Ca', 'soma', 'Gbar', '40'],
         ['Ca_conc', 'soma', 'tau', '0.01333', 'thick', '1'],
-        ['Ca_conc', 'apical#', 'tau', '0.01333', 'thick', '10'],
-        ['Ca_conc', 'dend#', 'tau', '0.01333', 'thick', '100'],
+        ['Ca_conc', 'dend_e_1_0', 'tau', '0.01333', 'thick', '10'],
+        ['Ca_conc', 'dend_e_2_0', 'tau', '0.01333', 'thick', '100'],
         
         #apical dendrites
         
