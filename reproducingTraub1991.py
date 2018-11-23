@@ -8,6 +8,8 @@ import math
 import pylab
 import rdesigneur as rd
 
+#Dilawar's code
+
 def print_model( ):
     print( ' STIMULUS' )
     res = {}
@@ -26,6 +28,8 @@ def print_model( ):
         e = moose.element(c)
         x = c.path.split( '/')
         print( "Tau=%g | %s" % (e.tau, '/'.join(x[-2:])))
+
+#My code
 
 rdes = rd.rdesigneur(
     cellProto = [
@@ -74,6 +78,7 @@ rdes = rd.rdesigneur(
     stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0 :0' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
+        ['dend#','1','Ca_conc','Ca', 'Calcium concentration (soma)']        
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
 )
