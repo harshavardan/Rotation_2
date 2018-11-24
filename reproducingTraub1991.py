@@ -5,7 +5,7 @@
 
 import moose
 import math
-import pylab
+import matplotlib.pyplot as plt
 import rdesigneur as rd
 
 #Dilawar's code
@@ -33,7 +33,7 @@ def print_model( ):
 
 rdes = rd.rdesigneur(
     cellProto = [
-        ['./cells/traub1991.swc','elec'],
+        ['./cells/traubCompartments.swc','elec'],
         #['ballAndStick','soma', 8.46e-6, 125e-6, 5.78e-6, 120e-6, 10]#[ballAndStick,name, somaDia=10e-6, somaLen=10e-6, dendDia=4e-6, dendLen=200e-6, numDendSeg=1] 
         ],
     chanProto = [
@@ -78,7 +78,7 @@ rdes = rd.rdesigneur(
     stimList = [['soma', '1', '.', 'inject', '(t>0.2 && t<0.8) ? 0 :0' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
-        ['dend#','1','Ca_conc','Ca', 'Calcium concentration (soma)']        
+        ['#', '1','Ca_conc','Ca', 'Calcium concentration (soma)']        
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
 )
@@ -89,3 +89,12 @@ moose.reinit()
 moose.start( 10 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
+#tables = moose.wildcardFind( '/##[TYPE=Table]' )
+#for i, t in enumerate(tables):
+    #plt.subplot( 4, 1, i+1)
+    #plt.plot( t.vector, '.' )
+
+#plt.show()
+
+
+#INFO:matplotlib.backends._backend_tk:Could not load matplotlib icon: can't use "pyimage10" as iconphoto: not a photo image
