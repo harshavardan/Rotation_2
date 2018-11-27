@@ -65,7 +65,16 @@ rdes = rd.rdesigneur(
     chanDistrib = [
         ['Na', 'soma', 'Gbar', '300' ], # conductance units are S/m^2
         ['K_DR', 'soma', 'Gbar', '150' ],
-        ['Ca_conc', 'soma', 'tau', '0.01333', 'B', '17.402e12'], #Compartment number 9
+        ['Ca_conc', 'soma', 'B', '17.402e12'], #Compartment number 9
+        ['Ca', 'soma', 'Gbar', '40'],
+        ['K_AHP', 'soma', 'Gbar', '8'],
+        ['K_C', 'soma', 'Gbar', '100'],
+        ['K_A', 'soma', 'Gbar', '50'],
+        ['LeakConductance', '#', 'Gbar', "1.0" ],
+        
+        #apical dendrites
+        ['Na', 'apical#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
+        ['K_DR', 'apical#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
         ['Ca_conc', 'apical_1_0', 'B', '26.404e12'],#10
         ['Ca_conc', 'apical_1_1', 'B', '5.941e12'],#11
         ['Ca_conc', 'apical_1_2', 'B', '5.941e12'],#12
@@ -76,6 +85,13 @@ rdes = rd.rdesigneur(
         ['Ca_conc', 'apical_1_7', 'B', '5.941e12'],#17
         ['Ca_conc', 'apical_1_8', 'B', '5.941e12'],#18
         ['Ca_conc', 'apical_e_1_9', 'B', '5.941e12'],#19
+        ['Ca', 'apical#', 'Gbar', '(p<=12e-6) ? 80 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 170 : ((p>60e-6 && p<=84e-6) ? 100 : ((p>84e-6 && p<=108e-6) ? 50 : 0))))'],
+        ['K_AHP', 'apical#', 'Gbar', '(p<=108e-6) ? 8 : 0'],
+        ['K_C', 'apical#', 'Gbar', '(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=84e-6) ? 150 : ((p>84e-6 && p<=108e-6) ? 50 : 0)))'],
+        
+        #basal dendrites
+        ['Na', 'dend#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
+        ['K_DR', 'dend#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
         ['Ca_conc', 'dend_2_0', 'B', '34.530e12'],#8
         ['Ca_conc', 'dend_2_1', 'B', '7.769e12'],#7
         ['Ca_conc', 'dend_2_2', 'B', '7.769e12'],#6
@@ -84,28 +100,12 @@ rdes = rd.rdesigneur(
         ['Ca_conc', 'dend_2_5', 'B', '7.769e12'],#3
         ['Ca_conc', 'dend_2_6', 'B', '7.769e12'],#2
         ['Ca_conc', 'dend_e_2_7', 'B', '7.769e12'],#1
-        ['Ca', 'soma', 'Gbar', '40'],
-        ['K_AHP', 'soma', 'Gbar', '8'],
-        ['K_C', 'soma', 'Gbar', '100'],
-        ['K_A', 'soma', 'Gbar', '50'],
-        ['LeakConductance', '#', 'Gbar', "1.0" ],
-        
-        #apical dendrites
-        ['Na', 'apical#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['K_DR', 'apical#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['Ca', 'apical#', 'Gbar', '(p<=12e-6) ? 80 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 170 : ((p>60e-6 && p<=84e-6) ? 100 : ((p>84e-6 && p<=108e-6) ? 50 : 0))))'],
-        ['K_AHP', 'apical#', 'Gbar', '(p<=108e-6) ? 8 : 0'],
-        ['K_C', 'apical#', 'Gbar', '(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=84e-6) ? 150 : ((p>84e-6 && p<=108e-6) ? 50 : 0)))'],
-        
-        #basal dendrites
-        ['Na', 'dend#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['K_DR', 'dend#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
         ['Ca', 'dend#', 'Gbar', '(p<=12e-6) ? 80 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 120 : ((p>60e-6 && p<=84e-6) ? 50 : 0)))'],
         ['K_AHP', 'dend#', 'Gbar', '(p<=84e-6) ? 8 : 0'],
         ['K_C', 'dend#','Gbar','(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 100 : ((p>60e-6 && p<=84e-6) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>4 && t<9) ? 0.1e-9 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>4 && t<9) ? 0.0e-9 :0' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
         ['#', '1','Ca_conc','Ca', 'Calcium concentration (#)']        
@@ -125,6 +125,5 @@ rdes.display()
     #plt.plot( t.vector, '.' )
 
 #plt.show()
-
 
 #INFO:matplotlib.backends._backend_tk:Could not load matplotlib icon: can't use "pyimage10" as iconphoto: not a photo image
