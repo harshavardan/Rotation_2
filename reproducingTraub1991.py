@@ -11,7 +11,7 @@ import networkx as nx
 
 #Dilawar's code
 
-#def print_model( ):
+def print_model( ):
     #print( ' STIMULUS' )
     #res = {}
     #for s in moose.wildcardFind( '/model/stims/##' ):
@@ -40,10 +40,19 @@ import networkx as nx
 
     #nx.draw_spring( g, with_labels = True )
     #plt.show()
-    #quit()
+    
+    #print B values
+    
+    for c in moose.wildcardFind( '/model/elec/##[TYPE=ZombieCaConc]' ):
+        e=moose.element(c)
+        x=c.path.split('/')
+        print('%f %s' % (e.B, '/'.join(x[-2:])))
+    
+    quit()
 
 #My code
 
+tau='0.01333'
 rdes = rd.rdesigneur(
     cellProto = [
         ['./cells/traubCompartments.swc','elec'],
@@ -65,7 +74,7 @@ rdes = rd.rdesigneur(
     chanDistrib = [
         ['Na', 'soma', 'Gbar', '300' ], # conductance units are S/m^2
         ['K_DR', 'soma', 'Gbar', '150' ],
-        ['Ca_conc', 'soma', 'B', '17.402e12'], #Compartment number 9
+        ['Ca_conc', 'soma', 'B', '17.402e12', 'tau', tau], #Compartment number 9
         ['Ca', 'soma', 'Gbar', '40'],
         ['K_AHP', 'soma', 'Gbar', '8'],
         ['K_C', 'soma', 'Gbar', '100'],
@@ -75,16 +84,16 @@ rdes = rd.rdesigneur(
         #apical dendrites
         ['Na', 'apical#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
         ['K_DR', 'apical#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['Ca_conc', 'apical_1_0', 'B', '26.404e12'],#10
-        ['Ca_conc', 'apical_1_1', 'B', '5.941e12'],#11
-        ['Ca_conc', 'apical_1_2', 'B', '5.941e12'],#12
-        ['Ca_conc', 'apical_1_3', 'B', '5.941e12'],#13
-        ['Ca_conc', 'apical_1_4', 'B', '5.941e12'],#14
-        ['Ca_conc', 'apical_1_5', 'B', '5.941e12'],#15
-        ['Ca_conc', 'apical_1_6', 'B', '5.941e12'],#16
-        ['Ca_conc', 'apical_1_7', 'B', '5.941e12'],#17
-        ['Ca_conc', 'apical_1_8', 'B', '5.941e12'],#18
-        ['Ca_conc', 'apical_e_1_9', 'B', '5.941e12'],#19
+        ['Ca_conc', 'apical_1_0', 'B', '26.404e12', 'tau', tau],#10
+        ['Ca_conc', 'apical_1_1', 'B', '5.941e12', 'tau', tau],#11
+        ['Ca_conc', 'apical_1_2', 'B', '5.941e12', 'tau', tau],#12
+        ['Ca_conc', 'apical_1_3', 'B', '5.941e12', 'tau', tau],#13
+        ['Ca_conc', 'apical_1_4', 'B', '5.941e12', 'tau', tau],#14
+        ['Ca_conc', 'apical_1_5', 'B', '5.941e12', 'tau', tau],#15
+        ['Ca_conc', 'apical_1_6', 'B', '5.941e12', 'tau', tau],#16
+        ['Ca_conc', 'apical_1_7', 'B', '5.941e12', 'tau', tau],#17
+        ['Ca_conc', 'apical_1_8', 'B', '5.941e12', 'tau', tau],#18
+        ['Ca_conc', 'apical_e_1_9', 'B', '5.941e12', 'tau', tau],#19
         ['Ca', 'apical#', 'Gbar', '(p<=12e-6) ? 80 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 170 : ((p>60e-6 && p<=84e-6) ? 100 : ((p>84e-6 && p<=108e-6) ? 50 : 0))))'],
         ['K_AHP', 'apical#', 'Gbar', '(p<=108e-6) ? 8 : 0'],
         ['K_C', 'apical#', 'Gbar', '(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=84e-6) ? 150 : ((p>84e-6 && p<=108e-6) ? 50 : 0)))'],
@@ -92,31 +101,31 @@ rdes = rd.rdesigneur(
         #basal dendrites
         ['Na', 'dend#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
         ['K_DR', 'dend#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['Ca_conc', 'dend_2_0', 'B', '34.530e12'],#8
-        ['Ca_conc', 'dend_2_1', 'B', '7.769e12'],#7
-        ['Ca_conc', 'dend_2_2', 'B', '7.769e12'],#6
-        ['Ca_conc', 'dend_2_3', 'B', '7.769e12'],#5
-        ['Ca_conc', 'dend_2_4', 'B', '7.769e12'],#4
-        ['Ca_conc', 'dend_2_5', 'B', '7.769e12'],#3
-        ['Ca_conc', 'dend_2_6', 'B', '7.769e12'],#2
-        ['Ca_conc', 'dend_e_2_7', 'B', '7.769e12'],#1
+        ['Ca_conc', 'dend_2_0', 'B', '34.530e12', 'tau', tau],#8
+        ['Ca_conc', 'dend_2_1', 'B', '7.769e12', 'tau', tau],#7
+        ['Ca_conc', 'dend_2_2', 'B', '7.769e12', 'tau', tau],#6
+        ['Ca_conc', 'dend_2_3', 'B', '7.769e12', 'tau', tau],#5
+        ['Ca_conc', 'dend_2_4', 'B', '7.769e12', 'tau', tau],#4
+        ['Ca_conc', 'dend_2_5', 'B', '7.769e12', 'tau', tau],#3
+        ['Ca_conc', 'dend_2_6', 'B', '7.769e12', 'tau', tau],#2
+        ['Ca_conc', 'dend_e_2_7', 'B', '7.769e12', 'tau', tau],#1
         ['Ca', 'dend#', 'Gbar', '(p<=12e-6) ? 80 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 120 : ((p>60e-6 && p<=84e-6) ? 50 : 0)))'],
         ['K_AHP', 'dend#', 'Gbar', '(p<=84e-6) ? 8 : 0'],
         ['K_C', 'dend#','Gbar','(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 100 : ((p>60e-6 && p<=84e-6) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>4 && t<9) ? 0.0e-9 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>5 && t<25) ? 0.1e-9 :0' ]],
     plotList = [
         ['soma', '1', '.', 'Vm', 'Membrane potential'],
-        ['#', '1','Ca_conc','Ca', 'Calcium concentration (#)']        
+        #['soma', '1','Ca_conc','Ca', 'Calcium concentration (#)']        
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
 )
 
 rdes.buildModel()
 moose.reinit()
-#print_model()
-moose.start( 10 )
+print_model()
+moose.start( 30 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
 #tables = moose.wildcardFind( '/##[TYPE=Table]' )
