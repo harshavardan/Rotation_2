@@ -41,22 +41,22 @@ def print_model( ):
     #nx.draw_spring( g, with_labels = True )
     #plt.show()
     
-    #print B values
+    #My code
     
+    #print B values
     for c in moose.wildcardFind( '/model/elec/##[TYPE=ZombieCaConc]' ):
         e=moose.element(c)
         x=c.path.split('/')
         print('%f %s' % (e.B, '/'.join(x[-2:])))
     
-    quit()
+    #quit()
 
-#My code
+
 
 tau='0.01333'
 rdes = rd.rdesigneur(
     cellProto = [
         ['./cells/traubCompartments.swc','elec'],
-        #['ballAndStick','soma', 8.46e-6, 125e-6, 5.78e-6, 120e-6, 10]#[ballAndStick,name, somaDia=10e-6, somaLen=10e-6, dendDia=4e-6, dendLen=200e-6, numDendSeg=1] 
         ],
     chanProto = [
         ['make_Na()', 'Na'],
@@ -114,10 +114,10 @@ rdes = rd.rdesigneur(
         ['K_C', 'dend#','Gbar','(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 100 : ((p>60e-6 && p<=84e-6) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>5 && t<25) ? 0.1e-9 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>5 && t<6) ? 0.0e-9 :0' ]],
     plotList = [
-        ['soma', '1', '.', 'Vm', 'Membrane potential'],
-        #['soma', '1','Ca_conc','Ca', 'Calcium concentration (#)']        
+        #['#', '1', '.', 'Vm', 'Membrane potential'],
+        ['soma', '1','Ca_conc','Ca', 'Calcium concentration']        
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
 )
@@ -125,7 +125,7 @@ rdes = rd.rdesigneur(
 rdes.buildModel()
 moose.reinit()
 print_model()
-moose.start( 30 )
+moose.start( 10 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
 #tables = moose.wildcardFind( '/##[TYPE=Table]' )
