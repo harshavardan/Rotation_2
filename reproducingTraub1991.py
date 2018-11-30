@@ -12,6 +12,7 @@ import networkx as nx
 #Dilawar's code
 
 def print_model( ):
+    
     #print( ' STIMULUS' )
     #res = {}
     #for s in moose.wildcardFind( '/model/stims/##' ):
@@ -23,7 +24,7 @@ def print_model( ):
         #x = c.path.split( '/')
         #compt = moose.element(e.parent)
         #vol = math.pi * compt.diameter * compt.length 
-        #print( "Gbar=%g S, %g S/m^2| %s" % (e.Gbar, e.Gbar/vol, '/'.join(x[-2:])))
+        #print( "%g S/m^2| %s" % (e.Gbar/vol, '/'.join(x[-2:])))
 
     #for c in moose.wildcardFind( '/model/##[TYPE=ZombieCaConc]' ):
         #e = moose.element(c)
@@ -47,13 +48,22 @@ def print_model( ):
     for c in moose.wildcardFind( '/model/elec/##[TYPE=ZombieCaConc]' ):
         e=moose.element(c)
         x=c.path.split('/')
-        print('%f %s' % (e.B, '/'.join(x[-2:])))
+        print('%g %s' % (e.thick, '/'.join(x[-2:])))
     
-    #quit()
+    ##quit()
+
+def findRadius(R,v,l):
+    if R<math.sqrt(v/(math.pi*l)):
+        print("Invalid values passed!")
+        return
+    else:
+        radi=(2*R-math.sqrt(4*R**2-4*v/(math.pi*l)))/2
+        return(str(radi))
 
 
-
+vol=1e-300
 tau='0.01333'
+
 rdes = rd.rdesigneur(
     cellProto = [
         ['./cells/traubCompartments.swc','elec'],
@@ -74,7 +84,7 @@ rdes = rd.rdesigneur(
     chanDistrib = [
         ['Na', 'soma', 'Gbar', '300' ], # conductance units are S/m^2
         ['K_DR', 'soma', 'Gbar', '150' ],
-        ['Ca_conc', 'soma', 'B', '17.402e12', 'tau', tau], #Compartment number 9
+        ['Ca_conc', 'soma', 'tau', tau, 'thick', findRadius(16.25e-6,vol/17.402,16.25e-6)], #Compartment number 9
         ['Ca', 'soma', 'Gbar', '40'],
         ['K_AHP', 'soma', 'Gbar', '8'],
         ['K_C', 'soma', 'Gbar', '100'],
@@ -84,39 +94,39 @@ rdes = rd.rdesigneur(
         #apical dendrites
         ['Na', 'apical#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
         ['K_DR', 'apical#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['Ca_conc', 'apical_1_0', 'B', '26.404e12', 'tau', tau],#10
-        ['Ca_conc', 'apical_1_1', 'B', '5.941e12', 'tau', tau],#11
-        ['Ca_conc', 'apical_1_2', 'B', '5.941e12', 'tau', tau],#12
-        ['Ca_conc', 'apical_1_3', 'B', '5.941e12', 'tau', tau],#13
-        ['Ca_conc', 'apical_1_4', 'B', '5.941e12', 'tau', tau],#14
-        ['Ca_conc', 'apical_1_5', 'B', '5.941e12', 'tau', tau],#15
-        ['Ca_conc', 'apical_1_6', 'B', '5.941e12', 'tau', tau],#16
-        ['Ca_conc', 'apical_1_7', 'B', '5.941e12', 'tau', tau],#17
-        ['Ca_conc', 'apical_1_8', 'B', '5.941e12', 'tau', tau],#18
-        ['Ca_conc', 'apical_e_1_9', 'B', '5.941e12', 'tau', tau],#19
+        ['Ca_conc', 'apical_1_0', 'tau', tau, 'thick', findRadius(2.89e-6, vol/26.404,12e-6)],#10
+        ['Ca_conc', 'apical_1_1', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#11
+        ['Ca_conc', 'apical_1_2', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#12
+        ['Ca_conc', 'apical_1_3', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#13
+        ['Ca_conc', 'apical_1_4', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#14
+        ['Ca_conc', 'apical_1_5', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#15
+        ['Ca_conc', 'apical_1_6', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#16
+        ['Ca_conc', 'apical_1_7', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#17
+        ['Ca_conc', 'apical_1_8', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#18
+        ['Ca_conc', 'apical_e_1_9', 'tau', tau, 'thick', findRadius(2.89e-6, vol/5.941,12e-6)],#19
         ['Ca', 'apical#', 'Gbar', '(p<=12e-6) ? 80 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 170 : ((p>60e-6 && p<=84e-6) ? 100 : ((p>84e-6 && p<=108e-6) ? 50 : 0))))'],
         ['K_AHP', 'apical#', 'Gbar', '(p<=108e-6) ? 8 : 0'],
         ['K_C', 'apical#', 'Gbar', '(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=84e-6) ? 150 : ((p>84e-6 && p<=108e-6) ? 50 : 0)))'],
         
         #basal dendrites
-        ['Na', 'dend#', 'Gbar', '(p<=12e-6) ? 150 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['K_DR', 'dend#', 'Gbar', '(p<=12e-6) ? 50 : ((p>12e-6 && p<=24e-6) ? 0 : ((p>24e-6 && p<=36e-6) ? 200 : 0))'],
-        ['Ca_conc', 'dend_2_0', 'B', '34.530e12', 'tau', tau],#8
-        ['Ca_conc', 'dend_2_1', 'B', '7.769e12', 'tau', tau],#7
-        ['Ca_conc', 'dend_2_2', 'B', '7.769e12', 'tau', tau],#6
-        ['Ca_conc', 'dend_2_3', 'B', '7.769e12', 'tau', tau],#5
-        ['Ca_conc', 'dend_2_4', 'B', '7.769e12', 'tau', tau],#4
-        ['Ca_conc', 'dend_2_5', 'B', '7.769e12', 'tau', tau],#3
-        ['Ca_conc', 'dend_2_6', 'B', '7.769e12', 'tau', tau],#2
-        ['Ca_conc', 'dend_e_2_7', 'B', '7.769e12', 'tau', tau],#1
-        ['Ca', 'dend#', 'Gbar', '(p<=12e-6) ? 80 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 120 : ((p>60e-6 && p<=84e-6) ? 50 : 0)))'],
-        ['K_AHP', 'dend#', 'Gbar', '(p<=84e-6) ? 8 : 0'],
-        ['K_C', 'dend#','Gbar','(p<=12e-6) ? 200 : ((p>12e-6 && p<=24e-6) ? 50 : ((p>24e-6 && p<=60e-6) ? 100 : ((p>60e-6 && p<=84e-6) ? 50 : 0)))']
+        ['Na', 'dend#', 'Gbar', '(p<=13.75e-6) ? 150 : ((p>13.75e-6 && p<=27.5e-6) ? 0 : ((p>27.5e-6 && p<=41.25e-6) ? 200 : 0))'],
+        ['K_DR', 'dend#', 'Gbar', '(p<=13.75e-6) ? 50 : ((p>13.75e-6 && p<=27.5e-6) ? 0 : ((p>27.5e-6 && p<=41.25e-6) ? 200 : 0))'],
+        ['Ca_conc', 'dend_2_0', 'tau', tau, 'thick', findRadius(2.42e-6, vol/34.530,12e-6)],#8
+        ['Ca_conc', 'dend_2_1', 'tau', tau, 'thick', findRadius(2.42e-6, vol/7.769,12e-6)],#7
+        ['Ca_conc', 'dend_2_2', 'tau', tau, 'thick', findRadius(2.42e-6, vol/7.769,12e-6)],#6
+        ['Ca_conc', 'dend_2_3', 'tau', tau, 'thick', findRadius(2.42e-6, vol/7.769,12e-6)],#5
+        ['Ca_conc', 'dend_2_4', 'tau', tau, 'thick', findRadius(2.42e-6, vol/7.769,12e-6)],#4
+        ['Ca_conc', 'dend_2_5', 'tau', tau, 'thick', findRadius(2.42e-6, vol/7.769,12e-6)],#3
+        ['Ca_conc', 'dend_2_6', 'tau', tau, 'thick', findRadius(2.42e-6, vol/7.769,12e-6)],#2
+        ['Ca_conc', 'dend_e_2_7', 'tau', tau, 'thick', findRadius(2.42e-6, vol/7.769,12e-6)],#1
+        ['Ca', 'dend#', 'Gbar', '(p<=13.75e-6) ? 80 : ((p>13.75e-6 && p<=27.5e-6) ? 50 : ((p>27.5e-6 && p<=68.75e-6) ? 120 : ((p>68.75e-6 && p<=96.25e-6) ? 50 : 0)))'],
+        ['K_AHP', 'dend#', 'Gbar', '(p<=96.25e-6) ? 8 : 0'],
+        ['K_C', 'dend#','Gbar','(p<=13.75e-6) ? 200 : ((p>13.75e-6 && p<=27.5e-6) ? 50 : ((p>27.5e-6 && p<=68.75e-6) ? 100 : ((p>68.75e-6 && p<=96.25e-6) ? 50 : 0)))']
         ],
         
-    stimList = [['soma', '1', '.', 'inject', '(t>5 && t<6) ? 0.0e-9 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>4 && t<9) ? 0.0e-9 :0' ]],
     plotList = [
-        #['#', '1', '.', 'Vm', 'Membrane potential'],
+        #['soma', '1', '.', 'Vm', 'Membrane potential'],
         ['soma', '1','Ca_conc','Ca', 'Calcium concentration']        
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
@@ -128,6 +138,7 @@ print_model()
 moose.start( 10 )
 #rdes.displayMoogli( 0.001, 0.7, rotation = 0.02 )
 rdes.display()
+findRadius(1,1,1)
 #tables = moose.wildcardFind( '/##[TYPE=Table]' )
 #for i, t in enumerate(tables):
     #plt.subplot( 4, 1, i+1)
