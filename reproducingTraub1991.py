@@ -61,7 +61,7 @@ def findRadius(R,v,l):
         return(str(radi))
 
 
-vol=1e-300
+vol=1e-16
 tau='0.01333'
 
 rdes = rd.rdesigneur(
@@ -126,7 +126,7 @@ rdes = rd.rdesigneur(
         
     stimList = [['soma', '1', '.', 'inject', '(t>4 && t<9) ? 0.0e-9 :0' ]],
     plotList = [
-        #['soma', '1', '.', 'Vm', 'Membrane potential'],
+        ['soma', '1', '.', 'Vm', 'Membrane potential'],
         ['soma', '1','Ca_conc','Ca', 'Calcium concentration']        
         ],
     #moogList = [['#', '1', '.', 'Vm', 'Soma potential']]
