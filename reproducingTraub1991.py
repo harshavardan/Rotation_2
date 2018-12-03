@@ -1,7 +1,5 @@
 #I wrote an swc file with an apical dendrite and a basal dendrite
-#with dimensions from the paper. The area of the cyclidrical soma
-#from the paper was used to find the radius of a sphere with the 
-#same area. This radius was used in the swc file.
+#with dimensions from the paper.
 
 import moose
 import math
@@ -44,7 +42,7 @@ def print_model( ):
     
     #My code
     
-    #print B values
+    ##print B values
     #for c in moose.wildcardFind( '/model/elec/##[TYPE=ZombieCaConc]' ):
         #e=moose.element(c)
         #x=c.path.split('/')
@@ -64,6 +62,8 @@ def print_model( ):
         
         RA=e.Ra*area/e.length #Not being set correctly.
         print('RA=%g Ohm.m %s' % (RA, '/'.join(x[-2:])))
+        
+        #print e.length/area
     
     ##quit()
 
@@ -78,7 +78,6 @@ def findRadius(R,v,l):
 def findV(B):
     return(1.0/(B*96485.3415))
 
-#vol=1e-16
 tau='0.01333'
 
 rdes = rd.rdesigneur(
@@ -96,12 +95,15 @@ rdes = rd.rdesigneur(
         ['./chans/LeakConductance.xml']
         ],
     passiveDistrib = [
-        ['#', 'CM', '0.030', 'RM', '1.0', 'RA', '1.0' ] # look into this 
+        ['soma', 'CM', '0.030', 'RM', '1.0', 'Ra', '9794.15034412' ],
+        ['apical#', 'CM', '0.030', 'RM', '1.0', 'Ra', '55070.9145647' ],
+        ['dend#', 'CM', '0.030', 'RM', '1.0', 'Ra', '65766.5054099' ]
+        
         ],
     chanDistrib = [
         ['Na', 'soma', 'Gbar', '300' ], # conductance units are S/m^2
         ['K_DR', 'soma', 'Gbar', '150' ],
-        ['Ca_conc', 'soma', 'tau', tau, 'thick', findRadius(16.25e-6,findV(34.804e12),16.25e-6)], #Compartment number 9
+        ['Ca_conc', 'soma', 'tau', tau, 'thick', findRadius(16.25e-6, findV(17.402e12), 32.5e-6)], #Compartment number 9
         ['Ca', 'soma', 'Gbar', '40'],
         ['K_AHP', 'soma', 'Gbar', '8'],
         ['K_C', 'soma', 'Gbar', '100'],
@@ -141,7 +143,7 @@ rdes = rd.rdesigneur(
         ['K_C', 'dend#','Gbar','(p<=13.75e-6) ? 200 : ((p>13.75e-6 && p<=27.5e-6) ? 50 : ((p>27.5e-6 && p<=68.75e-6) ? 100 : ((p>68.75e-6 && p<=96.25e-6) ? 50 : 0)))']
         ],
         
-    #stimList = [['soma', '1', '.', 'inject', '(t>4 && t<9) ? 0.01e-9 :0' ]],
+    stimList = [['soma', '1', '.', 'inject', '(t>4 && t<9) ? 0e-9 :0' ]],
     plotList = [
         ['#', '1', '.', 'Vm', 'Membrane potential'],
         ['#', '1','Ca_conc','Ca', 'Calcium concentration']        
@@ -151,10 +153,10 @@ rdes = rd.rdesigneur(
 
 rdes.buildModel()
 moose.reinit()
-print_model()
+#print_model()
 moose.start( 10 )
 #rdes.displayMoogli( 0.001, 1, rotation = 0.02 )
-#rdes.display()
+rdes.display()
 #findRadius(1,1,1)
 #tables = moose.wildcardFind( '/##[TYPE=Table]' )
 #for i, t in enumerate(tables):
