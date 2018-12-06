@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import math
 import matplotlib.pyplot as plt
 
@@ -431,17 +432,18 @@ for i in range(len(x)):
     brrd.append(1.0)
 
 plt.figure( figsize=(10,5) )
-plt.subplot(1,2,1)
-alpha,=plt.plot(x,fr)
-beta,=plt.plot(x,br)
+
+#  plt.subplot(1,1,1)
+plt.plot(x, fr, '-o', alpha=0.6, label='Traub ɑ')
+plt.plot(x, br, '-x', alpha=0.6, label='Traub β' )
+plt.legend( )
 plt.xlabel("Ca conc (uM)")
-plt.legend([alpha,beta],["alpha","beta"])
 plt.title("Activation gate, K AHP channel, Traub 1991")
 
-plt.subplot(1,2,2)
-alpha1,=plt.plot(x,frrd)
-beta1,=plt.plot(x, brrd)
-plt.legend([alpha1,beta1],["alpha","beta"])
+plt.plot(x, frrd, '-o', alpha=0.6, label='rdes ɑ')
+plt.plot(x, brrd, '-x', alpha=0.6, label='rdes β')
+plt.legend( )
+plt.legend()
 plt.xlabel("Ca conc")
 plt.title("Activation gate, make_K_AHP()")
 plt.show()
