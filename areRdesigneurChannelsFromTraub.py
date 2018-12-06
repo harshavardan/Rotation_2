@@ -414,7 +414,7 @@ x=range(-100,100)
 ##plt.title("Inactivation gate, make_K_A()")
 ##plt.show()
 
-x=range(0,100) #Ca conc in uM
+x=range(0,20) #Ca conc in uM
 CA_SCALE=1.0
 
 frrd=[]
@@ -434,16 +434,16 @@ for i in range(len(x)):
 plt.figure( figsize=(10,5) )
 
 #  plt.subplot(1,1,1)
-plt.plot(x, fr, '-o', alpha=0.6, label='Traub ɑ')
-plt.plot(x, br, '-x', alpha=0.6, label='Traub β' )
+plt.plot(x, fr, '-o', alpha=0.6, label='Traub alpha')
+plt.plot(x, br, '-x', alpha=0.6, label='Traub beta' )
 plt.legend( )
-plt.xlabel("Ca conc (uM)")
-plt.title("Activation gate, K AHP channel, Traub 1991")
+#plt.xlabel("Ca conc (uM)")
+#plt.title("Activation gate, K AHP channel, Traub 1991")
 
-plt.plot(x, frrd, '-o', alpha=0.6, label='rdes ɑ')
-plt.plot(x, brrd, '-x', alpha=0.6, label='rdes β')
+plt.plot(x, frrd, '-o', alpha=0.6, label='rdes alpha')
+plt.plot(x, brrd, '-x', alpha=0.6, label='rdes beta')
 plt.legend( )
 plt.legend()
-plt.xlabel("Ca conc")
-plt.title("Activation gate, make_K_AHP()")
+plt.xlabel("Ca conc (uM)")
+plt.title("Activation gate, K AHP channel")
 plt.show()
