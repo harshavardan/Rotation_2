@@ -445,5 +445,3 @@ plt.legend([alpha1,beta1],["alpha","beta"])
 plt.xlabel("Ca conc")
 plt.title("Activation gate, make_K_AHP()")
 plt.show()
-
-plt.plot(x,)
